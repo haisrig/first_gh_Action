@@ -1,0 +1,18 @@
+name: 07 - Using Expressions
+on: 
+  push: 
+  workflow_dispatch:
+    inputs:
+      debug:
+        type: boolean
+        default: false
+jobs:
+  echo:
+    runs-on: ubntu-latest
+    steps:      
+      - name: "[debug] Print start-up data"
+        if: ${{ inputs.debug }} == True
+        run: |
+          echo "test Runner OS: ${{runner.os}}"
+
+    
