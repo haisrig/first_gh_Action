@@ -16,6 +16,7 @@ jobs:
                 ls
                 cd github_actions
                 ls
+                cd react-app
                 pwd
                 npm ci
             - name: Run Unittests
