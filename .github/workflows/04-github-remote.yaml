@@ -1,0 +1,19 @@
+name: 04 - Github-Remote
+on: push
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        defaults:
+          run:
+            working-directory: github_actions/react_app
+        steps:
+            - name: Code Checkout
+              uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                node-version: '20.x'
+            - name: Install Dependencies          
+              run: npm ci
+            - name: Run Unittests
+              run: npm run test              
