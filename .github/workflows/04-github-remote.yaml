@@ -17,6 +17,5 @@ jobs:
               run: |
                 pwd
                 ls
-                npm ci
             - name: Run Unittests
               run: npm run test              
