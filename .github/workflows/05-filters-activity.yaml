@@ -1,0 +1,10 @@
+name: 05 - Filters Activity
+on: 
+    pull_request: 
+        branches: main
+jobs:
+    echo:
+        runs-on: ubuntu-latest
+        steps:
+            - name: echo hello
+              run: echo "Hello"    
