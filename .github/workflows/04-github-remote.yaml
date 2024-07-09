@@ -14,5 +14,7 @@ jobs:
               run: |
                 pwd
                 ls
+                cd github_actions
+                ls
             - name: Run Unittests
               run: npm run test              
