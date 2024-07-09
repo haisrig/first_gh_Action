@@ -1,0 +1,12 @@
+name: 02 - Workflow Runners
+on:
+  schedule:
+    - cron: '*/2 * * * *'
+
+jobs:
+  ubuntu-echo:
+      runs-on: ubuntu-latest
+      steps:
+          - name: Show the OS
+            run: echo "Runner OS $RUNNER_OS"
+                

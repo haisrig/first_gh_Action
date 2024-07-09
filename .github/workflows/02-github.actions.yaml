@@ -1,7 +1,5 @@
 name: 02-workflow-events
 on:
-  schedule:
-    - cron: '0/5 * * * *'
   workflow_dispatch: 
 
 jobs:
