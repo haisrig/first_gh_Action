@@ -3,9 +3,6 @@ on: push
 jobs:
     build:
         runs-on: ubuntu-latest
-        defaults:
-          run:
-            working-directory: ../github_actions/react_app
         steps:
             - name: Code Checkout
               uses: actions/checkout@v4
