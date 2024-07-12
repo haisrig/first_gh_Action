@@ -1,0 +1,28 @@
+name: Cache Node and NPM dependencies
+description: The action allows to cache the node and npn depdencies installtion.
+
+inputs:
+  node-version:
+    description: NodeJS version
+    default: 20.x
+  working-dir:
+    description: The working directory of the application.
+    default: .
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Install NodeJS version ${{ inputs.node-version }}
+      uses: actions/setup-node@v3
+    - name: Cache NPM dependencies
+      id: cache1
+      uses: actions/cache@v3
+      with:
+        path: ${{ inputs.working-dir }}/node_modules
+        key: node-modules-${{ hashfiles('${{ inputs.working-dir }}/package-lock.json')}}
+    - name: Install dependencies
+      if: steps.cache1.outputs.cache-hit != 'true'
+      run: npm ci
+      shell: bash
+      working-dir: ${{ inputs.working-dir }}

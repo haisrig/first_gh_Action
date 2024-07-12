@@ -1,0 +1,23 @@
+name: 17-custom-actions-composite
+on:
+  workflow_dispatch: 
+
+env:
+  working-dir: 17-custom-actions/react-app
+
+jobs:
+  build:
+    runs-on: ubuntu
+    defaults:
+      run:
+        working-directory:  ${{ env.working-dir }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@4
+      - name: Setup Node and install deps
+        uses: ./.github/actions/npm-deps/action.yaml
+        with:
+          node-version: 20.x
+          working-dir: ${{ env.working-dir }}
+      - name: Unitest
+        run: npm run test
