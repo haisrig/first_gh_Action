@@ -25,4 +25,4 @@ runs:
       if: steps.cache1.outputs.cache-hit != 'true'
       run: npm ci
       shell: bash
-      working-dir: ${{ inputs.working-dir }}
+      working-directory: ${{ inputs.working-dir }}
