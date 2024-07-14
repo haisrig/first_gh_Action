@@ -40,11 +40,11 @@ async function run() {
             await exec.exec(`git add package.json package-lock.json`, [], gitExecOptions);
             await exec.exec(`git commit -m "Update dependencies.`, [], gitExecOptions);
             await exec.exec(`git push -u origin ${targetBranch} --force`, [], gitExecOptions);
-
+            core.info("Changes pushed to Github remote");
             const octakit = github.getOctokit(ghToken);
             await octakit.rest.pulls.create({
                 owner: github.context.owner,
-                repo: github.context.repo,
+                repo: github.context.repo.repo,
                 title: "Update NPM packages",
                 body: "Update NPM packages",
                 baseBranch: baseBranch,
