@@ -1,5 +1,5 @@
-import core from '@actions/core';
-import exec from '@actions/exec';
+const core = require('@actions/core');
+const exec = require('@actions/exec');
 
 const validateName = ({name}) => {
     if(!/^[a-zA-Z0-9_\-\.\/]+$/.test(name)) {
