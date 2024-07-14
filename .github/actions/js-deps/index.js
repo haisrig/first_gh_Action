@@ -1,10 +1,18 @@
 const core = require('@actions/core');
 const exec = require('@actions/exec');
+const github = require('@actions/github');
 
 const validateName = ({name}) => {
     if(!/^[a-zA-Z0-9_\-\.\/]+$/.test(name)) {
         core.setFailed(`Improper ${name} provided`);
     }
+}
+
+const gitExecOptions = {cwd: workingDir}
+
+const setupGit = async() => {
+    await exec.exec(`git config --global user.name "gh-automation"`);
+    await exec.exec(`git config --global user.email "gh-automation@email.com"`);
 }
 
 async function run() {
@@ -20,10 +28,33 @@ async function run() {
     core.info(`[js-deps]: Target branch is ${targetBranch}`);
     core.info(`[js-deps]: Working directory is ${workingDir}`);
 
-    await exec.exec('npm update', [], {cwd: workingDir});
-    const gitStatus = await exec.getExecOutput('git status -s package*.json', [], {cwd: workingDir});
+    await exec.exec('npm update', [], gitExecOptions);
+    const gitStatus = await exec.getExecOutput('git status -s package*.json', [], gitExecOptions);
+
+
     if(gitStatus.stdout.length > 0) {
         core.info("[js-deps]: NPM packages updated.");
+        try {
+            setupGit();
+            await exec.exec(`git checkout ${targetBranch}`, [], gitExecOptions);
+            await exec.exec(`git add package.json package-lock.json`, [], gitExecOptions);
+            await exec.exec(`git commit -m "Update dependencies.`, [], gitExecOptions);
+            await exec.exec(`git push -u origin ${targetBranch} --force`, [], gitExecOptions);
+
+            const octakit = github.getOctokit(ghToken);
+            await octakit.rest.pulls.create({
+                owner: github.context.owner,
+                repo: github.context.repo,
+                title: "Update NPM packages",
+                body: "Update NPM packages",
+                baseBranch: baseBranch,
+                head: targetBranch
+            });
+        } catch(e) {
+            core.setFailed(e.message);
+            core.error(e);
+        }
+
     } else {
         core.info("[js-deps]: No update.");
     }
