@@ -36,7 +36,7 @@ async function run() {
         core.info("[js-deps]: NPM packages updated.");
         try {
             setupGit();
-            await exec.exec(`git checkout ${targetBranch}`, [], gitExecOptions);
+            await exec.exec(`git checkout -b ${targetBranch}`, [], gitExecOptions);
             await exec.exec(`git add package.json package-lock.json`, [], gitExecOptions);
             await exec.exec(`git commit -m "Update dependencies.`, [], gitExecOptions);
             await exec.exec(`git push -u origin ${targetBranch} --force`, [], gitExecOptions);
