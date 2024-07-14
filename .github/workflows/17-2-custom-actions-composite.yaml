@@ -1,0 +1,27 @@
+name: 17-2-custom-actions-composite
+run-name: 17-2-custom-actions-composite | ${{inputs.base-branch}} - ${{inputs.target-branch}}
+on:
+  workflow_dispatch:
+    inputs:
+      base-branch:
+        type: string
+        default: main
+      target-branch:
+        type: string
+        default: npm-deps
+      working-dir:
+        type: string
+        default: 17-custom-actions/react-app
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node and install deps
+        uses: ./.github/actions/js-deps
+        with:
+          base-branch: ${{ inputs.base-branch }}
+          target-branch: ${{ inputs.target-branch }}
+          working-directory: ${{ inputs.working-dir }}
