@@ -8,7 +8,6 @@ const validateName = ({name}) => {
     }
 }
 
-const gitExecOptions = {cwd: workingDir}
 
 const setupGit = async() => {
     await exec.exec(`git config --global user.name "gh-automation"`);
@@ -20,6 +19,7 @@ async function run() {
     const targetBranch = core.getInput('target-branch');
     const workingDir = core.getInput('working-directory');
     const ghToken = core.getInput('gh-token');
+    const gitExecOptions = {cwd: workingDir}
     core.info("This is a custom JS action");
     core.setSecret(ghToken);
     validateName(baseBranch);
