@@ -43,7 +43,7 @@ async function run() {
             core.info("Changes pushed to Github remote");
             const octakit = github.getOctokit(ghToken);
             await octakit.rest.pulls.create({
-                owner: github.context.owner,
+                owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
                 title: "Update NPM packages",
                 body: "Update NPM packages",
