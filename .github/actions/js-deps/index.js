@@ -47,7 +47,7 @@ async function run() {
                 repo: github.context.repo.repo,
                 title: "Update NPM packages",
                 body: "Update NPM packages",
-                baseBranch: baseBranch,
+                base: baseBranch,
                 head: targetBranch
             });
         } catch(e) {
